@@ -155,6 +155,14 @@ export function PreviewFrame() {
       ref={iframeRef}
       className="w-full h-full border-0 bg-white"
       title="Preview"
+      // Restore focus to the parent window when the mouse leaves the iframe.
+      // This fixes the iframe focus-stealing bug: after clicking inside the
+      // preview iframe, the browser holds focus in the iframe document, causing
+      // the first click on parent-document elements (e.g. the Preview/Code
+      // toggle buttons) to be silently swallowed. Calling window.focus() on
+      // mouse leave ensures the parent window is focused before the user's
+      // next click lands on a tab button.
+      onMouseLeave={() => window.focus()}
     />
   );
 }
